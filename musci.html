@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页版 CD 播放器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+       .player {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="player">
+        <h1>CD 播放器</h1>
+        <button id="playButton">播放</button>
+        <button id="pauseButton" disabled>暂停</button>
+        <button id="stopButton" disabled>停止</button>
+        <button id="loopButton">循环播放</button>
+        <div id="status">未播放</div>
+        <!-- 替换为你从 GitHub 获取的音乐文件链接 -->
+        <audio id="audio" src="https://raw.githubusercontent.com/yourusername/your-repo-name/main/《来自天堂的魔鬼》邓紫棋-声莲工作室 (1).mp3"></audio>
+    </div>
+    <script>
+        const playButton = document.getElementById('playButton');
+        const pauseButton = document.getElementById('pauseButton');
+        const stopButton = document.getElementById('stopButton');
+        const loopButton = document.getElementById('loopButton');
+        const statusDiv = document.getElementById('status');
+        const audio = document.getElementById('audio');
+
+        let loop = false;
+
+        playButton.addEventListener('click', () => {
+            audio.play();
+            playButton.disabled = true;
+            pauseButton.disabled = false;
+            stopButton.disabled = false;
+            statusDiv.textContent = '正在播放';
+        });
+
+        pauseButton.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                pauseButton.textContent = '暂停';
+                statusDiv.textContent = '正在播放';
+            } else {
+                audio.pause();
+                pauseButton.textContent = '继续';
+                statusDiv.textContent = '已暂停';
+            }
+        });
+
+        stopButton.addEventListener('click', () => {
+            audio.pause();
+            audio.currentTime = 0;
+            playButton.disabled = false;
+            pauseButton.disabled = true;
+            stopButton.disabled = true;
+            pauseButton.textContent = '暂停';
+            statusDiv.textContent = '未播放';
+        });
+
+        loopButton.addEventListener('click', () => {
+            loop =!loop;
+            audio.loop = loop;
+            if (loop) {
+                loopButton.textContent = '取消循环';
+            } else {
+                loopButton.textContent = '循环播放';
+            }
+        });
+
+        audio.addEventListener('ended', () => {
+            if (loop) {
+                audio.currentTime = 0;
+                audio.play();
+            } else {
+                playButton.disabled = false;
+                pauseButton.disabled = true;
+                stopButton.disabled = true;
+                pauseButton.textContent = '暂停';
+                statusDiv.textContent = '未播放';
+            }
+        });
+    </script>
+</body>
+
+</html>    
